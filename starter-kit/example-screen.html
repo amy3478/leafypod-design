@@ -1,0 +1,160 @@
+<!--
+  EXAMPLE: How to build a screen for the prototype.
+  This shows the Intent Fork screen — a dark-background screen with interactive pills.
+  Copy this pattern for new screens.
+-->
+
+<!-- ============================================ -->
+<!-- STEP 1: Add screen CSS (in the <style> block) -->
+<!-- ============================================ -->
+
+<style>
+/* Screen-specific styles — prefix with screen id to avoid conflicts */
+#intent-fork { background: var(--primary); display: flex; flex-direction: column; }
+
+.intent-content { flex: 1; padding: 100px 24px 0; }
+
+.intent-headline {
+  font-size: 28px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 32px;
+}
+
+.intent-options { display: flex; flex-direction: column; gap: 12px; }
+
+.intent-pill {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;        /* Self-sizing width, not full-width */
+  background: #fff;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 0 24px;
+  height: 48px;
+  border-radius: var(--r-pill);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  white-space: nowrap;
+  transition: transform 100ms, filter 100ms;
+}
+.intent-pill:active { transform: scale(0.97); filter: brightness(0.95); }
+
+.intent-bottom { padding: 20px 24px 40px; }
+
+.intent-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 0 16px;
+  height: 40px;
+  border-radius: var(--r-pill);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  transition: transform 100ms;
+}
+.intent-back:active { transform: scale(0.97); }
+
+/* Safe area for mobile */
+@media (max-width: 430px) {
+  .intent-content { padding-top: max(80px, calc(60px + env(safe-area-inset-top))); }
+  .intent-bottom { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+}
+</style>
+
+
+<!-- ============================================ -->
+<!-- STEP 2: Add screen HTML (inside .screens div) -->
+<!-- ============================================ -->
+
+<div class="screen" id="intent-fork">
+  <div class="intent-content">
+    <div class="intent-headline">Hello, what brings<br>you here?</div>
+    <div class="intent-options">
+      <button class="intent-pill" onclick="startPath('a')">Identify a plant</button>
+      <button class="intent-pill" onclick="startPath('b')">Need help with a plant</button>
+      <button class="intent-pill" onclick="startPath('c')">Set up my LeafyPod device</button>
+      <button class="intent-pill" onclick="startPath('d')">Just exploring</button>
+    </div>
+  </div>
+  <div class="intent-bottom">
+    <button class="intent-back" onclick="goBack()">← Back</button>
+  </div>
+</div>
+
+
+<!-- ============================================ -->
+<!-- STEP 3: Add screen JS (in the <script> block) -->
+<!-- ============================================ -->
+
+<script>
+// Path routing — called from intent pills
+function startPath(path) {
+  currentPath = path;
+  if (path === 'a') {
+    navigate('camera');
+  } else if (path === 'b') {
+    navigate('camera');
+  } else if (path === 'c') {
+    navigate('signup');
+  } else if (path === 'd') {
+    navigate('explore');
+  }
+}
+
+// Dark screen registration — add to darkScreens array in navigate()
+// const darkScreens = ['intent-fork', 'camera'];
+// This makes the status bar white and home indicator white on this screen.
+</script>
+
+
+<!-- ============================================ -->
+<!-- PATTERNS REFERENCE -->
+<!-- ============================================ -->
+
+<!--
+  COMMON SCREEN TYPES:
+
+  1. FORM SCREEN (white bg, scrollable)
+     - padding: 70px 20px 40px (accounts for status bar)
+     - Use .auth-header for headline + subhead
+     - Use .auth-form for fields + buttons
+     - Use .auth-footer for bottom links
+
+  2. CENTERED SCREEN (white bg, vertically centered content)
+     - display: flex; flex-direction: column; align-items: center; justify-content: center;
+     - Good for: confirmations, loading, empty states
+
+  3. DARK SCREEN (camera, media)
+     - Add id to darkScreens array in JS
+     - Use white text, semi-transparent borders
+
+  4. FULL-COLOR SCREEN (like intent fork)
+     - Background: var(--primary) or custom color
+     - Add id to darkScreens array
+     - White text throughout
+
+  5. SCROLLABLE RESULT SCREEN
+     - Content in a scroll wrapper div
+     - Sticky CTA at bottom with gradient fade:
+       position: absolute; bottom: 0; left: 0; right: 0;
+       background: linear-gradient(transparent, #fff 20%);
+
+  NAVIGATION:
+    navigate('screen-id')     — go forward (slides in from right)
+    goBack()                  — go back (slides in from left)
+    setTimeout(() => navigate('next'), 2500)  — auto-advance (loading screens)
+
+  WIRING:
+    onclick="navigate('screen-id')"   — button click
+    onclick="goBack()"                — back button
+    onclick="someFunction()"          — custom logic that calls navigate()
+-->
