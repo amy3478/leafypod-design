@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="LeafyPod">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFFFFF">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%232D5A3D' width='100' height='100' rx='20'/><text x='50' y='62' text-anchor='middle' font-size='50'>🌱</text></svg>">
+<title>LeafyPod — Onboarding Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #2D5A3D;
+  --green-dark: #1F4530;
+  --text: #000000;
+  --text-sec: rgba(0,0,0,0.6);
+  --border: #E5E5EA;
+  --badge-bg: #E8F2EB;
+  --amber: #D4A373;
+  --coral: #C97B63;
+  --ai-grad: linear-gradient(135deg, #82F4B1 0%, #30C67C 100%);
+  --r-pill: 999px;
+  --r-btn: 16px;
+  --r-card: 20px;
+  --r-hero: 40px;
+  --font: 'Outfit', -apple-system, 'SF Pro Display', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body { font-family:var(--font); background:#E8E8ED; display:flex; justify-content:center; align-items:center; min-height:100vh; min-height:100dvh; overflow:hidden; }
+/* Phone Frame — desktop */
+.phone { width:375px; height:812px; background:#fff; border-radius:50px; overflow:hidden; position:relative; box-shadow:0 25px 80px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.1); }
+/* Fullscreen on real mobile devices */
+@media (max-width: 430px) {
+  body { background:#fff; }
+  .phone { width:100vw; height:100vh; height:100dvh; border-radius:0; box-shadow:none; }
+  .status-bar { display:none; }
+  .home-indicator { display:none; }
+}
+/* Status Bar */
+.status-bar { position:absolute; top:0; left:0; right:0; height:54px; display:flex; justify-content:space-between; align-items:flex-end; padding:0 28px 8px; z-index:100; pointer-events:none; }
+.status-bar .time { font-size:16px; font-weight:600; letter-spacing:-0.3px; }
+.status-bar .icons { display:flex; gap:5px; align-items:center; font-size:12px; }
+.status-bar .icons svg { width:16px; height:12px; }
+.status-bar.light .time, .status-bar.light .icons { color:#000; }
+.status-bar.light .icons svg { fill:#000; }
+.status-bar.dark .time, .status-bar.dark .icons { color:#fff; }
+.status-bar.dark .icons svg { fill:#fff; }
+/* Home Indicator */
+.home-indicator { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:134px; height:5px; border-radius:100px; z-index:100; pointer-events:none; }
+.home-indicator.black { background:#000; }
+.home-indicator.white { background:#fff; }
+/* Screen Container */
+.screens { position:relative; width:100%; height:100%; overflow:hidden; }
+.screen { position:absolute; top:0; left:0; width:100%; height:100%; overflow-y:auto; overflow-x:hidden; opacity:0; pointer-events:none; transition:none; }
+.screen.active { opacity:1; pointer-events:auto; }
+.screen.sliding-in { animation:slideIn 320ms cubic-bezier(0.25,0.1,0.25,1) forwards; }
+.screen.sliding-out { animation:slideOut 320ms cubic-bezier(0.25,0.1,0.25,1) forwards; }
+.screen.sliding-in-back { animation:slideInBack 320ms cubic-bezier(0.25,0.1,0.25,1) forwards; }
+.screen.sliding-out-back { animation:slideOutBack 320ms cubic-bezier(0.25,0.1,0.25,1) forwards; }
+@keyframes slideIn { from{transform:translateX(100%);opacity:1} to{transform:translateX(0);opacity:1} }
+@keyframes slideOut { from{transform:translateX(0);opacity:1} to{transform:translateX(-30%);opacity:0.5} }
+@keyframes slideInBack { from{transform:translateX(-30%);opacity:0.5} to{transform:translateX(0);opacity:1} }
+@keyframes slideOutBack { from{transform:translateX(0);opacity:1} to{transform:translateX(100%);opacity:1} }
+/* Buttons */
+.btn { display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; font-family:var(--font); transition:transform 100ms, filter 100ms; -webkit-user-select:none; user-select:none; }
+.btn:active { transform:scale(0.97); filter:brightness(0.95); }
+.btn-primary { width:100%; height:52px; background:var(--green); color:#fff; font-size:17px; font-weight:600; border-radius:var(--r-pill); }
+.btn-primary:hover { filter:brightness(1.05); }
+.btn-secondary { background:none; border:none; color:var(--text); font-size:15px; font-weight:400; font-family:var(--font); cursor:pointer; padding:12px; }
+.btn-sso { width:100%; height:52px; border-radius:var(--r-pill); font-size:16px; font-weight:500; font-family:var(--font); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; }
+.btn-sso.apple { background:#000; color:#fff; border:none; }
+.btn-sso.google { background:#fff; color:#000; border:1px solid var(--border); }
+.input-field { width:100%; height:52px; border:1px solid var(--border); border-radius:var(--r-btn); padding:0 16px; font-size:16px; font-family:var(--font); outline:none; transition:border-color 200ms; }
+.input-field:focus { border-color:var(--green); }
+.input-field::placeholder { color:rgba(0,0,0,0.35); }
+.divider { display:flex; align-items:center; gap:16px; color:var(--text-sec); font-size:14px; }
+.divider::before, .divider::after { content:''; flex:1; height:1px; background:var(--border); }
+/* Back button */
+.back-btn { display:flex; align-items:center; gap:4px; background:none; border:none; font-size:16px; font-family:var(--font); cursor:pointer; padding:8px 0; color:var(--text); }
+.back-btn svg { width:20px; height:20px; }
+
+/* ============ SCREEN 1: CAROUSEL ============ */
+#carousel { background:#fff; display:flex; flex-direction:column; }
+.carousel-area { flex:1; display:flex; flex-direction:column; padding-top:70px; }
+.carousel-dots { display:flex; justify-content:center; gap:8px; padding:16px 0; }
+.carousel-dot { width:40px; height:3px; border-radius:100px; background:#D9D9D9; transition:background 300ms; }
+.carousel-dot.active { background:#000; }
+.carousel-track-wrapper { flex:1; overflow:hidden; position:relative; }
+.carousel-track { display:flex; transition:transform 400ms cubic-bezier(0.25,0.1,0.25,1); height:100%; }
+.carousel-slide { min-width:100%; display:flex; flex-direction:column; align-items:center; padding:0 20px; }
+.slide-images { position:relative; width:100%; height:380px; display:flex; align-items:center; justify-content:center; }
+.slide-img-main { width:280px; height:370px; border-radius:var(--r-hero); overflow:hidden; position:relative; z-index:2; box-shadow:0 8px 30px rgba(0,0,0,0.1); }
+.slide-img-main img { width:100%; height:100%; object-fit:cover; }
+.slide-img-peek { position:absolute; width:160px; height:220px; border-radius:24px; overflow:hidden; top:50%; transform:translateY(-50%); z-index:1; opacity:0.6; }
+.slide-img-peek img { width:100%; height:100%; object-fit:cover; }
+.slide-img-peek.left { left:-10px; }
+.slide-img-peek.right { right:-10px; }
+.slide-headline { font-size:28px; font-weight:600; text-align:center; line-height:1.2; margin-top:24px; padding:0 20px; }
+.carousel-bottom { padding:16px 20px 0; padding-bottom:max(20px, env(safe-area-inset-bottom)); }
+.carousel-bottom .btn-secondary { width:100%; text-align:center; }
+/* Safe area for notched phones */
+@media (max-width: 430px) {
+  .carousel-area { padding-top:max(16px, env(safe-area-inset-top)); }
+  .carousel-bottom { padding-bottom:max(20px, env(safe-area-inset-bottom)); }
+  .intent-content { padding-top:max(80px, calc(60px + env(safe-area-inset-top))); }
+  .intent-bottom { padding-bottom:max(24px, env(safe-area-inset-bottom)); }
+  #signup, #signup-wall, #login { padding-top:max(20px, env(safe-area-inset-top)); }
+  #profile > div:first-child { padding-top:max(20px, env(safe-area-inset-top)); }
+  .camera-top { padding-top:max(16px, env(safe-area-inset-top)); }
+  .camera-controls { padding-bottom:max(20px, env(safe-area-inset-bottom)); }
+  .tab-bar { padding-bottom:max(8px, env(safe-area-inset-bottom)); }
+  .home-header { padding-top:max(20px, calc(16px + env(safe-area-inset-top))); }
+  #confirm, #confirm-b { padding-top:env(safe-area-inset-top); }
+  #device-picker { padding-top:max(20px, env(safe-area-inset-top)); }
+  #device-searching, #device-wifi, #device-complete { padding-top:env(safe-area-inset-top); }
+  .result-scroll { padding-top:max(16px, env(safe-area-inset-top)); }
+}
+
+/* ============ SCREEN 2: INTENT FORK ============ */
+#intent-fork { background:var(--green); display:flex; flex-direction:column; }
+.intent-content { flex:1; padding:100px 24px 0; }
+.intent-headline { font-size:28px; font-weight:600; color:#fff; line-height:1.25; margin-bottom:32px; }
+.intent-options { display:flex; flex-direction:column; gap:12px; }
+.intent-pill { display:inline-flex; align-items:center; background:#fff; color:#000; font-size:16px; font-weight:500; padding:0 24px; height:48px; border-radius:var(--r-pill); border:none; cursor:pointer; font-family:var(--font); white-space:nowrap; transition:transform 100ms, filter 100ms; align-self:flex-start; }
+.intent-pill:active { transform:scale(0.97); filter:brightness(0.95); }
+.intent-bottom { padding:20px 24px 40px; }
+.intent-back { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.2); color:#fff; font-size:14px; font-weight:500; padding:0 16px; height:40px; border-radius:var(--r-pill); border:none; cursor:pointer; font-family:var(--font); transition:transform 100ms; }
+.intent-back:active { transform:scale(0.97); }
+
+/* ============ SCREEN 3: SIGN UP ============ */
+#signup, #signup-wall, #login { background:#fff; padding:70px 20px 40px; display:flex; flex-direction:column; }
+.auth-header { margin-bottom:32px; }
+.auth-header h1 { font-size:28px; font-weight:600; margin-bottom:8px; }
+.auth-header p { font-size:16px; color:var(--text-sec); }
+.auth-form { display:flex; flex-direction:column; gap:12px; flex:1; }
+.auth-form .divider { margin:4px 0; }
+.auth-footer { text-align:center; padding-top:16px; font-size:14px; color:var(--text-sec); }
+.auth-footer a { color:var(--green); font-weight:500; text-decoration:none; cursor:pointer; }
+
+/* ============ SCREEN 4: PROFILE ============ */
+#profile { background:#fff; padding:70px 20px 40px; display:flex; flex-direction:column; }
+.profile-avatar { width:80px; height:80px; border-radius:50%; background:var(--badge-bg); display:flex; align-items:center; justify-content:center; margin:24px auto 8px; font-size:28px; color:var(--green); }
+.profile-avatar-link { text-align:center; font-size:14px; color:var(--green); font-weight:500; margin-bottom:24px; cursor:pointer; }
+.profile-label { font-size:14px; font-weight:500; color:var(--text-sec); margin-bottom:8px; margin-top:20px; }
+.exp-cards { display:flex; flex-direction:column; gap:10px; margin-top:8px; }
+.exp-card { display:flex; align-items:center; gap:14px; padding:16px; border:1.5px solid var(--border); border-radius:var(--r-card); cursor:pointer; transition:all 200ms; }
+.exp-card.selected { border-color:var(--green); border-width:2px; background:var(--badge-bg); }
+.exp-card .exp-icon { font-size:28px; flex-shrink:0; }
+.exp-card .exp-text { display:flex; flex-direction:column; }
+.exp-card .exp-text strong { font-size:16px; font-weight:600; }
+.exp-card .exp-text span { font-size:13px; color:var(--text-sec); }
+.profile-bottom { margin-top:auto; padding-top:20px; }
+
+/* ============ SCREEN 5: CAMERA ============ */
+#camera { background:#1A1A1A; display:flex; flex-direction:column; }
+.camera-top { display:flex; justify-content:space-between; align-items:center; padding:60px 20px 16px; }
+.camera-top span { color:#fff; font-size:17px; font-weight:600; }
+.camera-close { width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.15); border:none; color:#fff; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.viewfinder { flex:1; display:flex; align-items:center; justify-content:center; padding:20px; }
+.viewfinder-frame { width:280px; height:350px; border:2px solid rgba(255,255,255,0.3); border-radius:24px; position:relative; overflow:hidden; }
+.vf-corner { position:absolute; width:24px; height:24px; border-color:#fff; border-style:solid; }
+.vf-corner.tl { top:12px; left:12px; border-width:2px 0 0 2px; border-radius:4px 0 0 0; }
+.vf-corner.tr { top:12px; right:12px; border-width:2px 2px 0 0; border-radius:0 4px 0 0; }
+.vf-corner.bl { bottom:12px; left:12px; border-width:0 0 2px 2px; border-radius:0 0 0 4px; }
+.vf-corner.br { bottom:12px; right:12px; border-width:0 2px 2px 0; border-radius:0 0 4px 0; }
+.camera-hint { text-align:center; color:rgba(255,255,255,0.6); font-size:14px; padding:8px 0; }
+.camera-controls { display:flex; align-items:center; justify-content:center; gap:40px; padding:20px 0 50px; }
+.gallery-btn { width:44px; height:44px; border-radius:10px; border:2px solid rgba(255,255,255,0.4); background:rgba(255,255,255,0.1); cursor:pointer; }
+.shutter-btn { width:72px; height:72px; border-radius:50%; background:rgba(255,255,255,0.25); display:flex; align-items:center; justify-content:center; cursor:pointer; border:none; transition:transform 100ms; }
+.shutter-btn:active { transform:scale(0.93); }
+.shutter-inner { width:62px; height:62px; border-radius:50%; background:#fff; }
+.shutter-spacer { width:44px; }
+
+/* ============ SCREEN 6: ANALYZING ============ */
+#analyzing, #analyzing-b { background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.pulse-orb { width:100px; height:100px; border-radius:50%; background:var(--ai-grad); filter:blur(16px); animation:pulse 2.5s ease-in-out infinite; margin-bottom:32px; }
+@keyframes pulse { 0%,100%{transform:scale(0.9);opacity:0.7} 50%{transform:scale(1.05);opacity:1} }
+.analyzing-text { font-size:20px; font-weight:600; margin-bottom:8px; }
+.analyzing-sub { font-size:14px; color:var(--text-sec); }
+
+/* ============ SCREEN 8: RESULT ============ */
+#result { background:#fff; padding-top:54px; }
+.result-scroll { padding:16px 20px 100px; }
+.result-photo { width:100%; height:250px; border-radius:24px; object-fit:cover; margin-bottom:20px; }
+.result-species { font-size:28px; font-weight:600; margin-bottom:4px; }
+.result-common { font-size:16px; color:var(--text-sec); margin-bottom:12px; }
+.result-badge { display:inline-flex; align-items:center; gap:4px; background:var(--badge-bg); color:var(--green); font-size:13px; font-weight:600; padding:6px 14px; border-radius:var(--r-pill); margin-bottom:24px; }
+.facts-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px; }
+.fact-card { padding:14px; border:1px solid var(--border); border-radius:var(--r-card); }
+.fact-icon { font-size:20px; margin-bottom:6px; }
+.fact-label { font-size:12px; color:var(--text-sec); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px; }
+.fact-value { font-size:15px; font-weight:500; }
+.result-care { font-size:16px; line-height:1.5; color:var(--text-sec); margin-bottom:24px; }
+.result-bottom { position:absolute; bottom:0; left:0; right:0; padding:16px 20px; padding-bottom:max(24px, env(safe-area-inset-bottom)); background:linear-gradient(transparent, #fff 20%); }
+.result-secondary { text-align:center; margin-top:8px; font-size:14px; color:var(--text-sec); cursor:pointer; }
+
+/* ============ SCREEN 8B: DIAGNOSIS ============ */
+#diagnosis { background:#fff; padding-top:54px; }
+.severity-badge { display:inline-flex; padding:6px 14px; border-radius:var(--r-pill); font-size:13px; font-weight:600; margin-bottom:20px; }
+.severity-moderate { background:#FDF6ED; color:var(--amber); }
+.treatment-list { list-style:none; margin-bottom:24px; }
+.treatment-list li { padding:12px 0; border-bottom:1px solid var(--border); font-size:15px; line-height:1.4; display:flex; gap:10px; }
+.treatment-list li:last-child { border-bottom:none; }
+.treatment-num { color:var(--green); font-weight:600; flex-shrink:0; }
+.recovery { padding:16px; background:var(--badge-bg); border-radius:var(--r-card); margin-bottom:24px; font-size:15px; }
+.recovery strong { color:var(--green); }
+
+/* ============ SCREEN 9: CONFIRMATION ============ */
+#confirm, #confirm-b { background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; }
+.check-circle { width:80px; height:80px; margin-bottom:24px; }
+.check-circle circle { fill:none; stroke:var(--green); stroke-width:3; stroke-dasharray:220; stroke-dashoffset:220; animation:drawCircle 600ms 200ms ease-out forwards; }
+.check-circle path { fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:40; stroke-dashoffset:40; animation:drawCheck 400ms 700ms ease-out forwards; }
+@keyframes drawCircle { 0%{stroke-dashoffset:220;fill:transparent} 80%{fill:transparent} 100%{stroke-dashoffset:0;fill:var(--green)} }
+@keyframes drawCheck { to{stroke-dashoffset:0} }
+.confirm-title { font-size:28px; font-weight:600; text-align:center; margin-bottom:8px; }
+.confirm-sub { font-size:16px; color:var(--text-sec); text-align:center; margin-bottom:40px; }
+
+/* ============ SCREEN 10: HOME ============ */
+#home { background:#fff; display:flex; flex-direction:column; }
+.home-header { display:flex; justify-content:space-between; align-items:center; padding:64px 20px 20px; }
+.home-title { font-size:34px; font-weight:700; }
+.home-avatar { width:36px; height:36px; border-radius:50%; background:var(--badge-bg); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:600; color:var(--green); }
+.home-empty { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 40px; text-align:center; }
+.home-empty-icon { font-size:64px; margin-bottom:16px; }
+.home-empty h2 { font-size:20px; font-weight:600; margin-bottom:8px; }
+.home-empty p { font-size:16px; color:var(--text-sec); margin-bottom:32px; }
+.tab-bar { display:flex; align-items:center; justify-content:space-around; padding:8px 0; padding-bottom:max(8px, env(safe-area-inset-bottom)); border-top:1px solid var(--border); position:relative; }
+.tab { display:flex; flex-direction:column; align-items:center; gap:2px; font-size:11px; color:#999; cursor:pointer; padding:4px 20px; background:none; border:none; font-family:var(--font); }
+.tab.active { color:var(--green); }
+.tab svg { width:24px; height:24px; }
+.ai-fab { width:56px; height:56px; border-radius:28px; background:var(--ai-grad); display:flex; align-items:center; justify-content:center; border:none; cursor:pointer; box-shadow:0 4px 16px rgba(48,198,124,0.35); position:relative; top:-16px; font-size:24px; transition:transform 150ms; }
+.ai-fab:active { transform:scale(0.93); }
+
+/* ============ SCREEN: DEVICE SETUP ============ */
+#device-picker { background:#fff; padding:70px 20px 40px; display:flex; flex-direction:column; }
+.device-cards { display:flex; flex-direction:column; gap:12px; margin-top:24px; }
+.device-card { display:flex; align-items:center; gap:16px; padding:20px; border:1.5px solid var(--border); border-radius:var(--r-card); cursor:pointer; transition:all 200ms; }
+.device-card:active { transform:scale(0.98); border-color:var(--green); }
+.device-card .dev-icon { font-size:32px; }
+.device-card .dev-text strong { font-size:16px; font-weight:600; display:block; }
+.device-card .dev-text span { font-size:13px; color:var(--text-sec); }
+#device-searching, #device-wifi, #device-complete { background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; }
+.search-anim { width:80px; height:80px; border-radius:50%; border:3px solid var(--border); border-top-color:var(--green); animation:spin 1s linear infinite; margin-bottom:24px; }
+@keyframes spin { to{transform:rotate(360deg)} }
+.wifi-form { width:100%; max-width:335px; display:flex; flex-direction:column; gap:12px; margin-top:24px; }
+
+/* ============ EXPLORE PLACEHOLDER ============ */
+#explore { background:#fff; display:flex; flex-direction:column; }
+.explore-banner { margin:16px 20px; padding:16px; background:var(--badge-bg); border-radius:var(--r-card); display:flex; align-items:flex-start; gap:10px; }
+.explore-banner p { font-size:14px; flex:1; }
+.explore-banner .dismiss { background:none; border:none; font-size:18px; cursor:pointer; color:var(--text-sec); padding:0; line-height:1; }
+.explore-content { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-sec); font-size:16px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <!-- Status Bar (dynamic) -->
+  <div class="status-bar light" id="statusBar">
+    <span class="time">9:41</span>
+    <span class="icons">
+      <svg viewBox="0 0 17 12"><path d="M1 8.5h2v3H1zM5 6h2v5.5H5zM9 3.5h2V12H9zM13 1h2v10.5h-2z"/></svg>
+      <svg viewBox="0 0 16 12"><path d="M8 3.6c1.8 0 3.4.7 4.6 1.9l1.2-1.2C12 2.4 10.1 1.6 8 1.6S4 2.4 2.2 4.3l1.2 1.2C4.6 4.3 6.2 3.6 8 3.6zm0 3.2c1 0 2 .4 2.7 1.1l1.2-1.2C10.7 5.5 9.4 5 8 5s-2.7.5-3.9 1.7l1.2 1.2C6 7.2 7 6.8 8 6.8zm0 3.2c.5 0 1-.2 1.4-.6L8 8l-1.4 1.4c.4.4.9.6 1.4.6z"/></svg>
+      <svg viewBox="0 0 27 13"><rect x="0" y="1" width="24" height="11" rx="3.5" stroke="currentColor" stroke-width="1" fill="none"/><path d="M25.5 4.5v4a2 2 0 000-4z" fill="currentColor"/><rect x="2" y="3" width="19" height="7" rx="1.5" fill="currentColor"/></svg>
+    </span>
+  </div>
+  <div class="home-indicator black" id="homeIndicator"></div>
+
+  <div class="screens">
+
+    <!-- SCREEN 1: CAROUSEL -->
+    <div class="screen active" id="carousel">
+      <div class="carousel-area">
+        <div class="carousel-dots">
+          <div class="carousel-dot active" data-i="0"></div>
+          <div class="carousel-dot" data-i="1"></div>
+          <div class="carousel-dot" data-i="2"></div>
+        </div>
+        <div class="carousel-track-wrapper" id="carouselWrapper">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-slide">
+              <div class="slide-images">
+                <div class="slide-img-peek left"><img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=300&h=400&fit=crop" alt=""></div>
+                <div class="slide-img-main"><img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400&h=600&fit=crop" alt="Plant identification"></div>
+                <div class="slide-img-peek right"><img src="https://images.unsplash.com/photo-1602923668104-8f9e03e77e62?w=300&h=400&fit=crop" alt=""></div>
+              </div>
+              <div class="slide-headline">Snap a photo.<br>Meet your plant.</div>
+            </div>
+            <div class="carousel-slide">
+              <div class="slide-images">
+                <div class="slide-img-peek left"><img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=300&h=400&fit=crop" alt=""></div>
+                <div class="slide-img-main"><img src="https://images.unsplash.com/photo-1602923668104-8f9e03e77e62?w=400&h=600&fit=crop" alt="Track growth"></div>
+                <div class="slide-img-peek right"><img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=300&h=400&fit=crop" alt=""></div>
+              </div>
+              <div class="slide-headline">Your plant's journey,<br>captured.</div>
+            </div>
+            <div class="carousel-slide">
+              <div class="slide-images">
+                <div class="slide-img-peek left"><img src="https://images.unsplash.com/photo-1602923668104-8f9e03e77e62?w=300&h=400&fit=crop" alt=""></div>
+                <div class="slide-img-main"><img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=400&h=600&fit=crop" alt="Smart hardware"></div>
+                <div class="slide-img-peek right"><img src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=300&h=400&fit=crop" alt=""></div>
+              </div>
+              <div class="slide-headline">Automated care.<br>Happier plants.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-bottom">
+        <button class="btn btn-primary" onclick="navigate('intent-fork')">Get started</button>
+        <button class="btn-secondary" onclick="navigate('login')" style="width:100%;text-align:center;">Already have an account?</button>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: INTENT FORK -->
+    <div class="screen" id="intent-fork">
+      <div class="intent-content">
+        <div class="intent-headline">Hello, what brings<br>you here?</div>
+        <div class="intent-options">
+          <button class="intent-pill" onclick="startPath('a')">Identify a plant</button>
+          <button class="intent-pill" onclick="startPath('b')">Need help with a plant</button>
+          <button class="intent-pill" onclick="startPath('c')">Set up my LeafyPod device</button>
+          <button class="intent-pill" onclick="startPath('d')">Just exploring</button>
+        </div>
+      </div>
+      <div class="intent-bottom">
+        <button class="intent-back" onclick="goBack()">← Back</button>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: SIGN UP -->
+    <div class="screen" id="signup">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="auth-header">
+        <h1>Create your account</h1>
+        <p>One tap to get started</p>
+      </div>
+      <div class="auth-form">
+        <button class="btn-sso apple" onclick="advanceSignup()"> Continue with Apple</button>
+        <button class="btn-sso google" onclick="advanceSignup()"> Continue with Google</button>
+        <div class="divider">or</div>
+        <input class="input-field" type="email" placeholder="Email address">
+        <input class="input-field" type="password" placeholder="Create a password">
+        <button class="btn btn-primary" onclick="advanceSignup()">Sign up</button>
+      </div>
+      <div class="auth-footer">Already have an account? <a onclick="navigate('login')">Log in</a></div>
+    </div>
+
+    <!-- SIGN-UP WALL (Path A) -->
+    <div class="screen" id="signup-wall">
+      <button class="back-btn" onclick="goBack()" style="padding:70px 20px 0 20px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div style="padding:0 20px 40px; flex:1; display:flex; flex-direction:column;">
+        <div class="auth-header">
+          <h1 id="wallTitle">Sign up to meet your plant.</h1>
+          <p id="wallSub">Your plant is ready to be identified — create an account to see the result.</p>
+        </div>
+        <div class="auth-form">
+          <button class="btn-sso apple" onclick="advanceWall()"> Continue with Apple</button>
+          <button class="btn-sso google" onclick="advanceWall()"> Continue with Google</button>
+          <div class="divider">or</div>
+          <input class="input-field" type="email" placeholder="Email address">
+          <input class="input-field" type="password" placeholder="Create a password">
+          <button class="btn btn-primary" onclick="advanceWall()">Sign up</button>
+        </div>
+        <div class="auth-footer">Already have an account? <a onclick="navigate('login')">Log in</a></div>
+      </div>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="screen" id="login">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="auth-header">
+        <h1>Welcome back</h1>
+        <p>Log in to your account</p>
+      </div>
+      <div class="auth-form">
+        <button class="btn-sso apple" onclick="navigate('home')"> Continue with Apple</button>
+        <button class="btn-sso google" onclick="navigate('home')"> Continue with Google</button>
+        <div class="divider">or</div>
+        <input class="input-field" type="email" placeholder="Email address">
+        <input class="input-field" type="password" placeholder="Password">
+        <button class="btn btn-primary" onclick="navigate('home')">Log in</button>
+      </div>
+      <div class="auth-footer">Don't have an account? <a onclick="navigate('signup')">Sign up</a></div>
+    </div>
+
+    <!-- SCREEN 4: PROFILE -->
+    <div class="screen" id="profile">
+      <div style="padding:70px 20px 0;">
+        <div class="auth-header">
+          <h1>A little about you</h1>
+          <p>This helps us personalize your experience</p>
+        </div>
+        <div class="profile-avatar">A</div>
+        <div class="profile-avatar-link">Add a photo</div>
+        <div class="profile-label">What should we call you?</div>
+        <input class="input-field" type="text" placeholder="Your name" value="Amy">
+        <div class="profile-label">How's your plant experience?</div>
+        <div class="exp-cards">
+          <div class="exp-card" onclick="selectExp(this)">
+            <span class="exp-icon">🌱</span>
+            <div class="exp-text"><strong>New to plants</strong><span>Just getting started</span></div>
+          </div>
+          <div class="exp-card" onclick="selectExp(this)">
+            <span class="exp-icon">🪴</span>
+            <div class="exp-text"><strong>A few plants</strong><span>I know the basics</span></div>
+          </div>
+          <div class="exp-card" onclick="selectExp(this)">
+            <span class="exp-icon">🌳</span>
+            <div class="exp-text"><strong>Experienced</strong><span>I've kept many plants alive</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-bottom" style="padding:20px;">
+        <button class="btn btn-primary" onclick="advanceProfile()">Continue</button>
+      </div>
+    </div>
+
+    <!-- SCREEN 5: CAMERA -->
+    <div class="screen" id="camera">
+      <div class="camera-top">
+        <span></span>
+        <span id="cameraTitle">Identify a plant</span>
+        <button class="camera-close" onclick="goBack()">✕</button>
+      </div>
+      <div class="viewfinder">
+        <div class="viewfinder-frame">
+          <div class="vf-corner tl"></div>
+          <div class="vf-corner tr"></div>
+          <div class="vf-corner bl"></div>
+          <div class="vf-corner br"></div>
+        </div>
+      </div>
+      <div class="camera-hint">Center the plant in the frame</div>
+      <div class="camera-controls">
+        <div class="gallery-btn"></div>
+        <button class="shutter-btn" onclick="takePhoto()"><div class="shutter-inner"></div></button>
+        <div class="shutter-spacer"></div>
+      </div>
+    </div>
+
+    <!-- SCREEN 6: ANALYZING (Path A) -->
+    <div class="screen" id="analyzing">
+      <div class="pulse-orb"></div>
+      <div class="analyzing-text">Analyzing your plant...</div>
+      <div class="analyzing-sub">This usually takes a few seconds</div>
+    </div>
+
+    <!-- SCREEN 6B: ANALYZING (Path B) -->
+    <div class="screen" id="analyzing-b">
+      <div class="pulse-orb"></div>
+      <div class="analyzing-text">Diagnosing your plant...</div>
+      <div class="analyzing-sub">Checking for common issues</div>
+    </div>
+
+    <!-- SCREEN 8: RESULT -->
+    <div class="screen" id="result">
+      <div class="result-scroll">
+        <button class="back-btn" onclick="goBack()" style="margin-bottom:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <img class="result-photo" src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?w=400&h=300&fit=crop" alt="Monstera">
+        <div class="result-species">Monstera Deliciosa</div>
+        <div class="result-common">Swiss Cheese Plant</div>
+        <div class="result-badge">✓ 98% match</div>
+        <div class="facts-grid">
+          <div class="fact-card"><div class="fact-icon">☀️</div><div class="fact-label">Light</div><div class="fact-value">Bright indirect</div></div>
+          <div class="fact-card"><div class="fact-icon">💧</div><div class="fact-label">Water</div><div class="fact-value">Every 1–2 weeks</div></div>
+          <div class="fact-card"><div class="fact-icon">🌡️</div><div class="fact-label">Temperature</div><div class="fact-value">65–85°F</div></div>
+          <div class="fact-card"><div class="fact-icon">📏</div><div class="fact-label">Growth</div><div class="fact-value">Up to 8ft indoors</div></div>
+        </div>
+        <div class="result-care">Thrives in bright, indirect light. Let soil dry between waterings. Loves humidity — mist occasionally or place near a humidifier.</div>
+      </div>
+      <div class="result-bottom">
+        <button class="btn btn-primary" onclick="navigate('confirm')">Add to my plants</button>
+        <div class="result-secondary">Not my plant</div>
+      </div>
+    </div>
+
+    <!-- SCREEN 8B: DIAGNOSIS -->
+    <div class="screen" id="diagnosis">
+      <div class="result-scroll">
+        <button class="back-btn" onclick="goBack()" style="margin-bottom:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <img class="result-photo" src="https://images.unsplash.com/photo-1602923668104-8f9e03e77e62?w=400&h=300&fit=crop" alt="Plant">
+        <div class="result-species">Overwatering</div>
+        <div class="severity-badge severity-moderate">⚠ Moderate</div>
+        <div class="result-care" style="margin-bottom:16px;">Yellowing leaves and soft stems suggest too much water. The roots may be sitting in excess moisture.</div>
+        <div style="font-size:16px;font-weight:600;margin-bottom:12px;">Treatment plan</div>
+        <ol class="treatment-list">
+          <li><span class="treatment-num">1</span>Let the soil dry out completely before watering again</li>
+          <li><span class="treatment-num">2</span>Check drainage — make sure the pot has holes</li>
+          <li><span class="treatment-num">3</span>Trim yellow leaves to redirect energy</li>
+          <li><span class="treatment-num">4</span>Reduce watering frequency to every 10–14 days</li>
+        </ol>
+        <div class="recovery"><strong>Recovery timeline:</strong> You should see improvement in 1–2 weeks</div>
+      </div>
+      <div class="result-bottom">
+        <button class="btn btn-primary" onclick="navigate('confirm-b')">Save plant & track recovery</button>
+        <div class="result-secondary">This doesn't look right</div>
+      </div>
+    </div>
+
+    <!-- SCREEN 9: CONFIRMATION (Path A) -->
+    <div class="screen" id="confirm">
+      <svg class="check-circle" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="36" />
+        <path d="M24 40l10 10 22-22" />
+      </svg>
+      <div class="confirm-title">Welcome to your plant family! 🌿</div>
+      <div class="confirm-sub">Monstera Deliciosa has been added to your plants</div>
+      <button class="btn btn-primary" style="width:calc(100% - 40px);" onclick="navigate('home')">Go to Home</button>
+    </div>
+
+    <!-- SCREEN 9B: CONFIRMATION (Path B) -->
+    <div class="screen" id="confirm-b">
+      <svg class="check-circle" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="36" />
+        <path d="M24 40l10 10 22-22" />
+      </svg>
+      <div class="confirm-title">We'll help you nurse it back 💚</div>
+      <div class="confirm-sub">Your plant has been added with a recovery plan</div>
+      <button class="btn btn-primary" style="width:calc(100% - 40px);" onclick="navigate('home')">Go to Home</button>
+    </div>
+
+    <!-- DEVICE PICKER -->
+    <div class="screen" id="device-picker">
+      <button class="back-btn" onclick="goBack()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="auth-header">
+        <h1>What are you setting up?</h1>
+      </div>
+      <div class="device-cards">
+        <div class="device-card" onclick="navigate('device-searching')">
+          <span class="dev-icon">🪴</span>
+          <div class="dev-text"><strong>Planter</strong><span>Smart self-watering planter</span></div>
+        </div>
+        <div class="device-card" onclick="navigate('device-searching')">
+          <span class="dev-icon">🪴</span>
+          <div class="dev-text"><strong>Planter (Bluetooth)</strong><span>No bridge required</span></div>
+        </div>
+        <div class="device-card" onclick="navigate('device-searching')">
+          <span class="dev-icon">💡</span>
+          <div class="dev-text"><strong>Grow Light</strong><span>Smart grow light</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEVICE SEARCHING -->
+    <div class="screen" id="device-searching">
+      <div class="search-anim"></div>
+      <div class="analyzing-text">Looking for your device...</div>
+      <div class="analyzing-sub">Make sure it's plugged in and nearby</div>
+    </div>
+
+    <!-- DEVICE WIFI -->
+    <div class="screen" id="device-wifi">
+      <div style="font-size:28px;font-weight:600;margin-bottom:8px;">Connect to Wi-Fi</div>
+      <div style="font-size:16px;color:var(--text-sec);margin-bottom:24px;">Select your network</div>
+      <div class="wifi-form">
+        <div style="padding:16px;border:1px solid var(--border);border-radius:var(--r-card);display:flex;justify-content:space-between;align-items:center;cursor:pointer;background:var(--badge-bg);">
+          <span style="font-weight:500;">Home WiFi</span><span style="color:var(--green);">✓</span>
+        </div>
+        <input class="input-field" type="password" placeholder="Password">
+        <button class="btn btn-primary" onclick="navigate('device-complete')">Connect</button>
+      </div>
+    </div>
+
+    <!-- DEVICE COMPLETE -->
+    <div class="screen" id="device-complete">
+      <svg class="check-circle" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="36" />
+        <path d="M24 40l10 10 22-22" />
+      </svg>
+      <div class="confirm-title">Your planter is all set! 🎉</div>
+      <div class="confirm-sub">You can add a plant from Home anytime</div>
+      <button class="btn btn-primary" style="width:calc(100% - 40px);" onclick="navigate('home')">Go to Home</button>
+    </div>
+
+    <!-- EXPLORE -->
+    <div class="screen" id="explore">
+      <div class="home-header">
+        <div class="home-title">Explore</div>
+        <div class="home-avatar">A</div>
+      </div>
+      <div class="explore-banner">
+        <p>👋 Welcome! Browse plants, care guides, and more. Create an account to save your favorites.</p>
+        <button class="dismiss" onclick="this.parentElement.style.display='none'">✕</button>
+      </div>
+      <div class="explore-content">
+        <p>🌿 Plant library coming soon</p>
+      </div>
+      <div class="tab-bar">
+        <button class="tab" onclick="navigate('home')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          Home
+        </button>
+        <button class="ai-fab">✨</button>
+        <button class="tab active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M2 12h20"/><path d="M12 2a15 15 0 014 10 15 15 0 01-4 10 15 15 0 01-4-10A15 15 0 0112 2z"/></svg>
+          Explore
+        </button>
+      </div>
+    </div>
+
+    <!-- HOME -->
+    <div class="screen" id="home">
+      <div class="home-header">
+        <div class="home-title">Home</div>
+        <div class="home-avatar">A</div>
+      </div>
+      <div class="home-empty">
+        <div class="home-empty-icon">🌱</div>
+        <h2>Your plant collection starts here</h2>
+        <p>Identify a plant or add one manually to get started.</p>
+        <button class="btn btn-primary" style="width:200px;">+ Add Plant</button>
+      </div>
+      <div class="tab-bar">
+        <button class="tab active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          Home
+        </button>
+        <button class="ai-fab">✨</button>
+        <button class="tab" onclick="navigate('explore')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M2 12h20"/><path d="M12 2a15 15 0 014 10 15 15 0 01-4 10 15 15 0 01-4-10A15 15 0 0112 2z"/></svg>
+          Explore
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Navigation state
+let history = ['carousel'];
+let currentPath = null;
+let transitioning = false;
+
+function navigate(screenId, skipHistory) {
+  if (transitioning) return;
+  transitioning = true;
+  const current = document.querySelector('.screen.active');
+  const next = document.getElementById(screenId);
+  if (!current || !next || current === next) { transitioning = false; return; }
+
+  // Update status bar + theme color
+  const darkScreens = ['intent-fork', 'camera'];
+  const sb = document.getElementById('statusBar');
+  const hi = document.getElementById('homeIndicator');
+  const tc = document.querySelector('meta[name="theme-color"]');
+  if (darkScreens.includes(screenId)) {
+    sb.className = 'status-bar dark';
+    hi.className = 'home-indicator white';
+    if (tc) tc.content = screenId === 'intent-fork' ? '#2D5A3D' : '#1A1A1A';
+  } else {
+    sb.className = 'status-bar light';
+    hi.className = 'home-indicator black';
+    if (tc) tc.content = '#FFFFFF';
+  }
+
+  // Animate
+  next.style.opacity = '1';
+  next.style.pointerEvents = 'auto';
+  next.classList.add('active', 'sliding-in');
+  current.classList.add('sliding-out');
+  current.classList.remove('active');
+
+  setTimeout(() => {
+    next.classList.remove('sliding-in');
+    current.classList.remove('sliding-out');
+    current.style.opacity = '0';
+    current.style.pointerEvents = 'none';
+    current.style.transform = '';
+    transitioning = false;
+  }, 330);
+
+  if (!skipHistory) history.push(screenId);
+}
+
+function goBack() {
+  if (transitioning || history.length <= 1) return;
+  transitioning = true;
+  history.pop();
+  const screenId = history[history.length - 1];
+  const current = document.querySelector('.screen.active');
+  const prev = document.getElementById(screenId);
+  if (!current || !prev) { transitioning = false; return; }
+
+  const darkScreens = ['intent-fork', 'camera'];
+  const sb = document.getElementById('statusBar');
+  const hi = document.getElementById('homeIndicator');
+  const tc2 = document.querySelector('meta[name="theme-color"]');
+  if (darkScreens.includes(screenId)) {
+    sb.className = 'status-bar dark';
+    hi.className = 'home-indicator white';
+    if (tc2) tc2.content = screenId === 'intent-fork' ? '#2D5A3D' : '#1A1A1A';
+  } else {
+    sb.className = 'status-bar light';
+    hi.className = 'home-indicator black';
+    if (tc2) tc2.content = '#FFFFFF';
+  }
+
+  prev.style.opacity = '1';
+  prev.style.pointerEvents = 'auto';
+  prev.classList.add('active', 'sliding-in-back');
+  current.classList.add('sliding-out-back');
+  current.classList.remove('active');
+
+  setTimeout(() => {
+    prev.classList.remove('sliding-in-back');
+    current.classList.remove('sliding-out-back');
+    current.style.opacity = '0';
+    current.style.pointerEvents = 'none';
+    current.style.transform = '';
+    transitioning = false;
+  }, 330);
+}
+
+// Path logic
+function startPath(path) {
+  currentPath = path;
+  if (path === 'a') {
+    navigate('camera');
+    document.getElementById('cameraTitle').textContent = 'Identify a plant';
+  } else if (path === 'b') {
+    navigate('camera');
+    document.getElementById('cameraTitle').textContent = "What's going on?";
+  } else if (path === 'c') {
+    navigate('signup');
+  } else if (path === 'd') {
+    navigate('explore');
+  }
+}
+
+function takePhoto() {
+  if (currentPath === 'a') {
+    navigate('analyzing');
+    setTimeout(() => navigate('signup-wall'), 2500);
+    document.getElementById('wallTitle').textContent = 'Sign up to meet your plant.';
+    document.getElementById('wallSub').textContent = 'Your plant is ready to be identified — create an account to see the result.';
+  } else if (currentPath === 'b') {
+    navigate('analyzing-b');
+    setTimeout(() => {
+      document.getElementById('wallTitle').textContent = 'Sign up to see your diagnosis.';
+      document.getElementById('wallSub').textContent = "We've found something — create an account to view the result.";
+      navigate('signup-wall');
+    }, 2500);
+  }
+}
+
+function advanceWall() {
+  navigate('profile');
+}
+
+function advanceSignup() {
+  navigate('profile');
+}
+
+function advanceProfile() {
+  if (currentPath === 'a') navigate('result');
+  else if (currentPath === 'b') navigate('diagnosis');
+  else if (currentPath === 'c') navigate('device-picker');
+  else navigate('home');
+}
+
+function selectExp(el) {
+  document.querySelectorAll('.exp-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// Carousel swipe
+(function() {
+  const wrapper = document.getElementById('carouselWrapper');
+  const track = document.getElementById('carouselTrack');
+  const dots = document.querySelectorAll('.carousel-dot');
+  let current = 0, startX = 0, deltaX = 0, isDragging = false;
+  const total = 3;
+
+  function goTo(i) {
+    current = Math.max(0, Math.min(total - 1, i));
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+  }
+
+  wrapper.addEventListener('touchstart', e => { startX = e.touches[0].clientX; isDragging = true; track.style.transition = 'none'; });
+  wrapper.addEventListener('touchmove', e => { if (!isDragging) return; deltaX = e.touches[0].clientX - startX; track.style.transform = `translateX(calc(-${current * 100}% + ${deltaX}px))`; });
+  wrapper.addEventListener('touchend', () => {
+    isDragging = false;
+    track.style.transition = 'transform 400ms cubic-bezier(0.25,0.1,0.25,1)';
+    if (deltaX < -50) goTo(current + 1);
+    else if (deltaX > 50) goTo(current - 1);
+    else goTo(current);
+    deltaX = 0;
+  });
+
+  // Mouse drag for desktop
+  wrapper.addEventListener('mousedown', e => { startX = e.clientX; isDragging = true; track.style.transition = 'none'; e.preventDefault(); });
+  window.addEventListener('mousemove', e => { if (!isDragging) return; deltaX = e.clientX - startX; track.style.transform = `translateX(calc(-${current * 100}% + ${deltaX}px))`; });
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    track.style.transition = 'transform 400ms cubic-bezier(0.25,0.1,0.25,1)';
+    if (deltaX < -50) goTo(current + 1);
+    else if (deltaX > 50) goTo(current - 1);
+    else goTo(current);
+    deltaX = 0;
+  });
+
+  // Device searching auto-advance
+  const observer = new MutationObserver(() => {
+    const searching = document.getElementById('device-searching');
+    if (searching.classList.contains('active')) {
+      setTimeout(() => { if (searching.classList.contains('active')) navigate('device-wifi'); }, 2000);
+    }
+  });
+  observer.observe(document.getElementById('device-searching'), { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
+</body>
+</html>
