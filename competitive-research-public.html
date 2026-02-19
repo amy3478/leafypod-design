@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plant App Competitive Research</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #1a1a1a;
+    background: #f8f8f6;
+    padding: 48px 20px 80px;
+  }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 52px 56px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
+  }
+
+  /* Header */
+  .doc-header {
+    border-bottom: 2px solid #0D9488;
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+  }
+
+  .doc-header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #111;
+    margin-bottom: 10px;
+  }
+
+  .doc-meta {
+    font-size: 0.82rem;
+    color: #666;
+    line-height: 1.5;
+  }
+
+  .doc-meta span {
+    display: block;
+  }
+
+  /* Section headings */
+  h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0D9488;
+    letter-spacing: -0.01em;
+    margin: 44px 0 16px;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 650;
+    color: #111;
+    margin: 28px 0 10px;
+  }
+
+  p {
+    margin-bottom: 14px;
+    color: #2c2c2c;
+  }
+
+  /* Divider */
+  hr {
+    border: none;
+    border-top: 1px solid #e8e8e4;
+    margin: 40px 0;
+  }
+
+  /* Lists */
+  ul, ol {
+    padding-left: 1.4em;
+    margin-bottom: 14px;
+    color: #2c2c2c;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  li strong {
+    color: #111;
+  }
+
+  /* Inline code / emphasis */
+  em {
+    font-style: italic;
+    color: #444;
+  }
+
+  strong {
+    font-weight: 650;
+  }
+
+  /* Highlight pill for gap */
+  .gap-note {
+    display: inline-block;
+    background: #f0fdf9;
+    border-left: 3px solid #0D9488;
+    padding: 8px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.9rem;
+    color: #0a6b62;
+    margin: 10px 0 14px;
+  }
+
+  /* Table */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0 24px;
+    border-radius: 8px;
+    border: 1px solid #e8e8e4;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    min-width: 560px;
+  }
+
+  thead tr {
+    background: #0D9488;
+    color: #ffffff;
+  }
+
+  thead th {
+    padding: 11px 14px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  tbody tr:nth-child(odd) {
+    background: #ffffff;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #f6faf9;
+  }
+
+  tbody tr:hover {
+    background: #edf7f6;
+  }
+
+  tbody td {
+    padding: 10px 14px;
+    vertical-align: top;
+    border-bottom: 1px solid #efefeb;
+    color: #2c2c2c;
+    line-height: 1.5;
+  }
+
+  tbody td:first-child {
+    font-weight: 600;
+    color: #111;
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Pattern card */
+  .pattern-card {
+    background: #f6faf9;
+    border: 1px solid #d1ede9;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+
+  .pattern-card .card-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #0D9488;
+    margin-bottom: 6px;
+  }
+
+  .pattern-card p {
+    margin-bottom: 0;
+    font-size: 0.92rem;
+  }
+
+  /* Callout */
+  .callout {
+    background: #fffbeb;
+    border-left: 3px solid #f59e0b;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+    font-size: 0.92rem;
+    color: #333;
+  }
+
+  .callout strong {
+    color: #92400e;
+  }
+
+  /* Footer */
+  .doc-footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid #e8e8e4;
+    font-size: 0.78rem;
+    color: #999;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="doc-header">
+    <h1>Plant App Competitive Research</h1>
+    <div class="doc-meta">
+      <span>Published February 14, 2026</span>
+      <span>Apps analyzed: Greg, Flora, PictureThis, Planta &nbsp;·&nbsp; Blossom &amp; NatureID: insufficient data</span>
+    </div>
+  </div>
+
+  <!-- COMPARISON MATRIX -->
+  <h2>Comparison Matrix</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Greg</th>
+          <th>Flora</th>
+          <th>PictureThis</th>
+          <th>Planta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Community</td>
+          <td>User-centric hybrid — feed, likes, plant groups, trending</td>
+          <td>Minimal — individual focus</td>
+          <td>Limited — forums, challenges, plant-centric</td>
+          <td>Unknown</td>
+        </tr>
+        <tr>
+          <td>Plant Logging</td>
+          <td>Extensive — photo timeline, geotags, journal, height tracking</td>
+          <td>Photo timeline, care notes, chronological</td>
+          <td>Timeline, care history, milestones</td>
+          <td>Photo library, growth tracking</td>
+        </tr>
+        <tr>
+          <td>Plant ID</td>
+          <td>Camera AI, confidence score, 3 suggestions</td>
+          <td>Photo-based with confidence</td>
+          <td>Primary feature — instant camera AI</td>
+          <td>Camera-based</td>
+        </tr>
+        <tr>
+          <td>Plant Doctor</td>
+          <td>Photo symptom checker, health score per plant</td>
+          <td>Photo + sensor data fusion (differentiator)</td>
+          <td>Photo-based (premium)</td>
+          <td>Unknown</td>
+        </tr>
+        <tr>
+          <td>Hardware</td>
+          <td>3rd-party BT sensors (Parrot etc), many:1 mapping</td>
+          <td>Own BLE tracker, 1:1 mapping, QR pair, OTA</td>
+          <td>None — pure software</td>
+          <td>Wi-Fi soil sensors</td>
+        </tr>
+        <tr>
+          <td>Nav Structure</td>
+          <td>Home | My Plants | Community | Reminders | Profile</td>
+          <td>Home | Plant Library | Doctor | Devices | Settings</td>
+          <td>Identify | My Garden | Guides | Doctor | Profile</td>
+          <td>Unknown</td>
+        </tr>
+        <tr>
+          <td>Without Hardware</td>
+          <td>Fully functional</td>
+          <td>Usable but degraded (loses real-time data)</td>
+          <td>Fully functional (no hw)</td>
+          <td>Usable without hw</td>
+        </tr>
+        <tr>
+          <td>Monetization</td>
+          <td>Freemium ~$5–10/mo</td>
+          <td>Free + Premium + HW sales ($30–50)</td>
+          <td>Freemium ~$10–15/mo or $60/yr</td>
+          <td>Freemium</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- KEY PATTERNS -->
+  <h2>Key Patterns</h2>
+
+  <h3>Hardware Integration: Three Models</h3>
+
+  <div class="pattern-card">
+    <div class="card-label">Model 1 &mdash; Native Hardware (Flora)</div>
+    <p>Own BLE tracker, 1:1 plant mapping, QR pairing, firmware OTA. App built <em>for</em> the hardware. Without it, value prop degrades. Revenue = hardware + premium.</p>
+  </div>
+
+  <div class="pattern-card">
+    <div class="card-label">Model 2 &mdash; Partner Ecosystem (Greg, Planta)</div>
+    <p>Integrates 3rd-party sensors. Many:1 mapping flexibility. App doesn't need hardware. Revenue = subscription; hardware is retention glue.</p>
+  </div>
+
+  <div class="pattern-card">
+    <div class="card-label">Model 3 &mdash; No Hardware (PictureThis)</div>
+    <p>Pure software. Fastest onboarding. Revenue = subscription only.</p>
+  </div>
+
+  <h3>Navigation Patterns</h3>
+  <p>Two dominant approaches emerge across the category:</p>
+  <ul>
+    <li><strong>Plant ID as primary CTA (PictureThis):</strong> "Identify" is the first tab — the hook is "what is this plant?"</li>
+    <li><strong>Dashboard/Collection as home (Greg, Flora):</strong> Assumes you already know your plants. Status overview comes first.</li>
+  </ul>
+  <p>Flora's choice to surface <strong>Plant Doctor as a top-level tab</strong> is notable — it signals "we expect problems and we'll fix them."</p>
+
+  <h3>Community Approaches</h3>
+  <ul>
+    <li><strong>Greg:</strong> User-centric social feed (likes, comments, activity). Crowded territory.</li>
+    <li><strong>PictureThis:</strong> Plant-centric forums and challenges. Interesting concept but low engagement.</li>
+    <li><strong>Flora:</strong> Minimal. Not a focus.</li>
+  </ul>
+  <div class="gap-note">Gap: No app currently offers plant cohort-based community features.</div>
+
+  <h3>Device vs No-Device UX</h3>
+  <ul>
+    <li><strong>PictureThis / Greg:</strong> Fully functional without hardware. Device is additive.</li>
+    <li><strong>Flora:</strong> Degradation problem — without the tracker, the core value proposition collapses.</li>
+  </ul>
+
+  <h3>Plant Doctor: Commoditizing Fast</h3>
+  <div class="callout">
+    Photo-only diagnosis is now <strong>table stakes</strong> across the category. <strong>Sensor fusion</strong> — combining photo data with real-time environmental readings — represents the next level of diagnostic capability and the clearest point of differentiation in this space.
+  </div>
+
+  <div class="doc-footer">
+    Plant App Competitive Research &nbsp;·&nbsp; February 2026
+  </div>
+
+</div>
+</body>
+</html>
