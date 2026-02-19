@@ -3,237 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plant App Competitive Research</title>
+<title>Plant Care App — Competitive Landscape</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+  :root {
+    --teal: #0D9488;
+    --teal-light: #CCFBF1;
+    --teal-dark: #115E59;
+    --bg: #FAFAFA;
+    --surface: #FFFFFF;
+    --text: #1A1A1A;
+    --text-muted: #6B7280;
+    --border: #E5E7EB;
+    --code-bg: #F3F4F6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.65;
-    color: #1a1a1a;
-    background: #f8f8f6;
-    padding: 48px 20px 80px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
   }
-
-  .page {
-    max-width: 720px;
+  .container {
+    max-width: 960px;
     margin: 0 auto;
-    background: #ffffff;
-    border-radius: 10px;
-    padding: 52px 56px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
+    padding: 3rem 2rem 4rem;
   }
 
-  /* Header */
-  .doc-header {
-    border-bottom: 2px solid #0D9488;
-    padding-bottom: 24px;
-    margin-bottom: 36px;
+  /* HERO */
+  h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: var(--teal-dark);
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
   }
 
-  .doc-header h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: #111;
-    margin-bottom: 10px;
-  }
-
-  .doc-meta {
-    font-size: 0.82rem;
-    color: #666;
-    line-height: 1.5;
-  }
-
-  .doc-meta span {
-    display: block;
-  }
-
-  /* Section headings */
   h2 {
-    font-size: 1.15rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #0D9488;
-    letter-spacing: -0.01em;
-    margin: 44px 0 16px;
-    text-transform: uppercase;
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
+    margin: 2.5rem 0 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text);
   }
-
+  h2:first-of-type { border-top: none; padding-top: 0; }
   h3 {
-    font-size: 1rem;
-    font-weight: 650;
-    color: #111;
-    margin: 28px 0 10px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.5rem;
   }
+  p { margin: 0.6rem 0; }
+  strong { font-weight: 600; }
 
-  p {
-    margin-bottom: 14px;
-    color: #2c2c2c;
+  /* APP SCREENSHOTS GALLERY */
+  .app-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
   }
-
-  /* Divider */
-  hr {
-    border: none;
-    border-top: 1px solid #e8e8e4;
-    margin: 40px 0;
+  .app-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
-
-  /* Lists */
-  ul, ol {
-    padding-left: 1.4em;
-    margin-bottom: 14px;
-    color: #2c2c2c;
+  .app-card h4 {
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.75rem 0.75rem 0.25rem;
+    color: var(--teal-dark);
   }
-
-  li {
-    margin-bottom: 6px;
+  .app-card .app-meta {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    padding: 0 0.75rem 0.5rem;
   }
-
-  li strong {
-    color: #111;
+  .app-screenshots {
+    display: flex;
+    gap: 4px;
+    padding: 0 0.5rem 0.5rem;
+    overflow-x: auto;
   }
-
-  /* Inline code / emphasis */
-  em {
-    font-style: italic;
-    color: #444;
+  .app-screenshots img {
+    height: 180px;
+    border-radius: 6px;
+    flex-shrink: 0;
   }
-
-  strong {
-    font-weight: 650;
-  }
-
-  /* Highlight pill for gap */
-  .gap-note {
+  .app-card .app-tag {
     display: inline-block;
-    background: #f0fdf9;
-    border-left: 3px solid #0D9488;
-    padding: 8px 14px;
-    border-radius: 0 6px 6px 0;
-    font-size: 0.9rem;
-    color: #0a6b62;
-    margin: 10px 0 14px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    margin: 0 0.75rem 0.75rem;
   }
 
-  /* Table */
+  /* TABLES */
   .table-wrap {
     overflow-x: auto;
-    margin: 16px 0 24px;
-    border-radius: 8px;
-    border: 1px solid #e8e8e4;
+    margin: 1rem 0;
   }
-
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.875rem;
-    min-width: 560px;
+    font-size: 0.85rem;
   }
-
-  thead tr {
-    background: #0D9488;
-    color: #ffffff;
-  }
-
-  thead th {
-    padding: 11px 14px;
+  th {
     text-align: left;
+    padding: 0.5rem 0.6rem;
+    border-bottom: 2px solid var(--teal);
     font-weight: 600;
-    font-size: 0.8rem;
-    letter-spacing: 0.03em;
-    white-space: nowrap;
-  }
-
-  tbody tr:nth-child(odd) {
-    background: #ffffff;
-  }
-
-  tbody tr:nth-child(even) {
-    background: #f6faf9;
-  }
-
-  tbody tr:hover {
-    background: #edf7f6;
-  }
-
-  tbody td {
-    padding: 10px 14px;
-    vertical-align: top;
-    border-bottom: 1px solid #efefeb;
-    color: #2c2c2c;
-    line-height: 1.5;
-  }
-
-  tbody td:first-child {
-    font-weight: 600;
-    color: #111;
-    white-space: nowrap;
-  }
-
-  tbody tr:last-child td {
-    border-bottom: none;
-  }
-
-  /* Pattern card */
-  .pattern-card {
-    background: #f6faf9;
-    border: 1px solid #d1ede9;
-    border-radius: 8px;
-    padding: 18px 20px;
-    margin-bottom: 14px;
-  }
-
-  .pattern-card .card-label {
-    font-size: 0.72rem;
-    font-weight: 700;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: #0D9488;
-    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+    color: var(--teal-dark);
+    white-space: nowrap;
   }
-
-  .pattern-card p {
-    margin-bottom: 0;
-    font-size: 0.92rem;
+  td {
+    padding: 0.45rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
   }
+  tr:nth-child(even) td { background: #F9FAFB; }
+  tr:hover td { background: var(--teal-light); }
 
-  /* Callout */
+  /* CALLOUT */
   .callout {
-    background: #fffbeb;
-    border-left: 3px solid #f59e0b;
-    padding: 14px 18px;
+    background: var(--teal-light);
+    border-left: 3px solid var(--teal);
     border-radius: 0 8px 8px 0;
-    margin: 20px 0;
-    font-size: 0.92rem;
-    color: #333;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+    color: var(--teal-dark);
   }
 
-  .callout strong {
-    color: #92400e;
+  /* GAP PILL */
+  .gap {
+    display: inline-block;
+    background: #FEF3C7;
+    color: #92400E;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    margin: 0.25rem 0;
   }
 
-  /* Footer */
-  .doc-footer {
-    margin-top: 56px;
-    padding-top: 20px;
-    border-top: 1px solid #e8e8e4;
-    font-size: 0.78rem;
-    color: #999;
+  /* PATTERN CARDS */
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .pattern-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  .pattern-card h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 0.3rem;
+  }
+  .pattern-card p {
+    font-size: 0.85rem;
+    margin: 0.25rem 0;
+  }
+
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
     text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 2rem 1rem; }
+    h1 { font-size: 1.75rem; }
+    .app-gallery { grid-template-columns: repeat(2, 1fr); }
+    .app-screenshots img { height: 140px; }
+  }
+  @media (max-width: 480px) {
+    .app-gallery { grid-template-columns: 1fr; }
+  }
+  @media print {
+    .app-screenshots img { height: 120px; }
   }
 </style>
 </head>
 <body>
-<div class="page">
+<div class="container">
 
-  <div class="doc-header">
-    <h1>Plant App Competitive Research</h1>
-    <div class="doc-meta">
-      <span>Published February 14, 2026</span>
-      <span>Apps analyzed: Greg, Flora, PictureThis, Planta &nbsp;·&nbsp; Blossom &amp; NatureID: insufficient data</span>
+  <h1>Plant Care App — Competitive Landscape</h1>
+  <p class="subtitle">Updated Feb 2026 · Apps analyzed: Greg, PictureThis, Planta, Blossom, NatureID · Flora excluded (focus/productivity app, not plant care)</p>
+
+  <!-- APP GALLERY -->
+  <h2>The Competitors</h2>
+  <div class="app-gallery">
+    <div class="app-card">
+      <h4>Greg</h4>
+      <div class="app-meta">~4.7★ · Social-first</div>
+      <div class="app-screenshots">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource112/v4/20/a0/ea/20a0ea59-4d0a-346f-f5f3-3225001f12db/f839fa62-ca94-4a5e-b8b8-8be27b732199_5.5-slide-1.png/392x696bb.png" alt="Greg screenshot 1" loading="lazy">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource112/v4/cf/29/b4/cf29b4e2-7309-6849-86d0-ea959c9ed9b8/bec6a852-27f0-4c67-90b9-c57c78684230_5.5-slide-2.png/392x696bb.png" alt="Greg screenshot 2" loading="lazy">
+      </div>
+      <span class="app-tag">Weather integration</span>
+    </div>
+    <div class="app-card">
+      <h4>PictureThis</h4>
+      <div class="app-meta">4.8★ · 1M+ ratings</div>
+      <div class="app-screenshots" style="padding:0.5rem 0.75rem;font-size:0.75rem;color:var(--text-muted);font-style:italic;">
+        Screenshots not available via API — <a href="https://apps.apple.com/app/id1252497129" target="_blank" style="color:var(--teal)">view on App Store</a>
+      </div>
+      <span class="app-tag">98% accuracy · 400K species</span>
+    </div>
+    <div class="app-card">
+      <h4>Planta</h4>
+      <div class="app-meta">4.8★ · 10M+ users</div>
+      <div class="app-screenshots">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/41/49/af/4149af41-7eb5-0ec8-614a-fe26ee03ba3f/21a249f3-1bba-4ab6-ac5b-11c024f95e6b_Planta_PPO_Social_proof_iOS_5.5_Mobile_1242x2208px_view1.jpg/392x696bb.jpg" alt="Planta screenshot 1" loading="lazy">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/16/f2/da/16f2da66-62a3-a96f-e223-3396a3a15846/89ccdf54-1ee6-4acf-a87e-c61e1823ba9d_1242x2208bb-2.png/392x696bb.png" alt="Planta screenshot 2" loading="lazy">
+      </div>
+      <span class="app-tag">Expert team · Marketplace</span>
+    </div>
+    <div class="app-card">
+      <h4>Blossom</h4>
+      <div class="app-meta">~4.7★ · Oxygen Digital</div>
+      <div class="app-screenshots">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/d4/dd/28/d4dd28c5-b16b-b2ce-3357-f055c5c59e39/33a0324d-f1c7-472f-ad17-73e43c6e90bc_iphone5.5_s1___U00281_U0029__U00281_U0029.jpg/392x696bb.jpg" alt="Blossom screenshot 1" loading="lazy">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/2a/65/f8/2a65f849-abbe-3bde-f9d5-fdf22cf39f46/ebb104f2-3499-44dc-bad8-e1ecc18bd1b3_iphone5.5_s2___U00281_U0029__U00281_U0029.jpg/392x696bb.jpg" alt="Blossom screenshot 2" loading="lazy">
+      </div>
+      <span class="app-tag">Water calculator · Lifetime plan</span>
+    </div>
+    <div class="app-card">
+      <h4>NatureID</h4>
+      <div class="app-meta">~4.7★ · Multi-kingdom</div>
+      <div class="app-screenshots">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/78/75/fa/7875fa7b-a92f-7dd5-6ea1-cd07f8088d6d/68d5cfa1-166d-4e10-928e-6c517368a592_Screenshot_1.jpg/392x696bb.jpg" alt="NatureID screenshot 1" loading="lazy">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/PurpleSource122/v4/e7/7b/5e/e77b5e51-0cdb-d9f8-ab0d-a043d2142c07/eb4c89bb-b074-4bb1-b644-36d26bf82b48_Screenshot_2.jpg/392x696bb.jpg" alt="NatureID screenshot 2" loading="lazy">
+      </div>
+      <span class="app-tag">Plants + insects + birds + mushrooms</span>
     </div>
   </div>
 
@@ -245,123 +274,163 @@
         <tr>
           <th>Feature</th>
           <th>Greg</th>
-          <th>Flora</th>
           <th>PictureThis</th>
           <th>Planta</th>
+          <th>Blossom</th>
+          <th>NatureID</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>Community</td>
-          <td>User-centric hybrid — feed, likes, plant groups, trending</td>
-          <td>Minimal — individual focus</td>
-          <td>Limited — forums, challenges, plant-centric</td>
-          <td>Unknown</td>
+          <td><strong>Plant ID</strong></td>
+          <td>Database + barcode</td>
+          <td>AI photo, 98%, 400K spp.</td>
+          <td>AI photo, 400K spp.</td>
+          <td>AI photo, 10K spp., ~95%</td>
+          <td>AI photo, 400K spp., ~97%</td>
         </tr>
         <tr>
-          <td>Plant Logging</td>
-          <td>Extensive — photo timeline, geotags, journal, height tracking</td>
-          <td>Photo timeline, care notes, chronological</td>
-          <td>Timeline, care history, milestones</td>
-          <td>Photo library, growth tracking</td>
+          <td><strong>Plant Doctor</strong></td>
+          <td>Community diagnosis</td>
+          <td>Photo diagnosis + 24/7 experts</td>
+          <td>Dr. Planta + in-house team</td>
+          <td>Automated only</td>
+          <td>Photo diagnosis + severity scoring</td>
         </tr>
         <tr>
-          <td>Plant ID</td>
-          <td>Camera AI, confidence score, 3 suggestions</td>
-          <td>Photo-based with confidence</td>
-          <td>Primary feature — instant camera AI</td>
-          <td>Camera-based</td>
+          <td><strong>Care Reminders</strong></td>
+          <td>Weather-adjusted scheduling</td>
+          <td>Basic watering + fertilization</td>
+          <td>AI-adaptive, 7 care types</td>
+          <td>Seasonal auto-adjust + water calc</td>
+          <td>Personalized schedules</td>
         </tr>
         <tr>
-          <td>Plant Doctor</td>
-          <td>Photo symptom checker, health score per plant</td>
-          <td>Photo + sensor data fusion (differentiator)</td>
-          <td>Photo-based (premium)</td>
-          <td>Unknown</td>
+          <td><strong>Community</strong></td>
+          <td>Social feed, likes, follows</td>
+          <td>Expert chat + forums</td>
+          <td>Care Share + community</td>
+          <td>None (gamification only)</td>
+          <td>Citizen science sightings</td>
         </tr>
         <tr>
-          <td>Hardware</td>
-          <td>3rd-party BT sensors (Parrot etc), many:1 mapping</td>
-          <td>Own BLE tracker, 1:1 mapping, QR pair, OTA</td>
-          <td>None — pure software</td>
-          <td>Wi-Fi soil sensors</td>
+          <td><strong>Hardware</strong></td>
+          <td>Light meter + weather API</td>
+          <td>Light meter</td>
+          <td>Light meter</td>
+          <td>Light meter + GPS weather</td>
+          <td>Camera + mic (bird calls)</td>
         </tr>
         <tr>
-          <td>Nav Structure</td>
-          <td>Home | My Plants | Community | Reminders | Profile</td>
-          <td>Home | Plant Library | Doctor | Devices | Settings</td>
-          <td>Identify | My Garden | Guides | Doctor | Profile</td>
-          <td>Unknown</td>
+          <td><strong>Pricing</strong></td>
+          <td>$5–8/mo, $30–50/yr</td>
+          <td>$8/mo, $40/yr, family plan</td>
+          <td>$10/mo, $36/yr</td>
+          <td>$10/mo, $40/yr, lifetime $80–100</td>
+          <td>$10–13/mo, $30–40/yr, lifetime $60–80</td>
         </tr>
         <tr>
-          <td>Without Hardware</td>
-          <td>Fully functional</td>
-          <td>Usable but degraded (loses real-time data)</td>
-          <td>Fully functional (no hw)</td>
-          <td>Usable without hw</td>
+          <td><strong>Unique Angle</strong></td>
+          <td>Social-first, weather</td>
+          <td>Highest accuracy, 28 langs</td>
+          <td>Expert team, marketplace</td>
+          <td>Water calculator, health scoring</td>
+          <td>Multi-kingdom</td>
         </tr>
         <tr>
-          <td>Monetization</td>
-          <td>Freemium ~$5–10/mo</td>
-          <td>Free + Premium + HW sales ($30–50)</td>
-          <td>Freemium ~$10–15/mo or $60/yr</td>
-          <td>Freemium</td>
+          <td><strong>Rating</strong></td>
+          <td>~4.7/5</td>
+          <td>4.8/5 (1M+ ratings)</td>
+          <td>4.8/5 (107K ratings)</td>
+          <td>~4.7/5</td>
+          <td>~4.7/5</td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <hr>
-
   <!-- KEY PATTERNS -->
   <h2>Key Patterns</h2>
 
-  <h3>Hardware Integration: Three Models</h3>
-
-  <div class="pattern-card">
-    <div class="card-label">Model 1 &mdash; Native Hardware (Flora)</div>
-    <p>Own BLE tracker, 1:1 plant mapping, QR pairing, firmware OTA. App built <em>for</em> the hardware. Without it, value prop degrades. Revenue = hardware + premium.</p>
+  <h3>Hardware Integration Models</h3>
+  <div class="pattern-grid">
+    <div class="pattern-card">
+      <h4>Phone-Only Sensors</h4>
+      <p>All 5 apps: light meter via camera, GPS for weather. No external hardware integration.</p>
+    </div>
+    <div class="pattern-card">
+      <h4>Weather API</h4>
+      <p>Greg & Blossom adjust care based on real-time local conditions. Others use static schedules.</p>
+    </div>
+    <div class="pattern-card">
+      <h4>Audio Identification</h4>
+      <p>NatureID only — microphone for bird call recognition. Unique in the space.</p>
+    </div>
   </div>
-
-  <div class="pattern-card">
-    <div class="card-label">Model 2 &mdash; Partner Ecosystem (Greg, Planta)</div>
-    <p>Integrates 3rd-party sensors. Many:1 mapping flexibility. App doesn't need hardware. Revenue = subscription; hardware is retention glue.</p>
-  </div>
-
-  <div class="pattern-card">
-    <div class="card-label">Model 3 &mdash; No Hardware (PictureThis)</div>
-    <p>Pure software. Fastest onboarding. Revenue = subscription only.</p>
-  </div>
+  <div class="callout">No app integrates with dedicated plant hardware sensors. Care advice relies on user-reported conditions and weather API estimates — not actual soil moisture, humidity, or root health data.</div>
 
   <h3>Navigation Patterns</h3>
-  <p>Two dominant approaches emerge across the category:</p>
-  <ul>
-    <li><strong>Plant ID as primary CTA (PictureThis):</strong> "Identify" is the first tab — the hook is "what is this plant?"</li>
-    <li><strong>Dashboard/Collection as home (Greg, Flora):</strong> Assumes you already know your plants. Status overview comes first.</li>
-  </ul>
-  <p>Flora's choice to surface <strong>Plant Doctor as a top-level tab</strong> is notable — it signals "we expect problems and we'll fix them."</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>App</th><th>Primary Nav</th><th>Plant Entry</th><th>Unique Pattern</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Greg</td><td>Feed / My Plants / Add / Water / Profile</td><td>Search + barcode</td><td>Social feed as home</td></tr>
+        <tr><td>PictureThis</td><td>Identify / Garden / Care / Diagnose / Learn</td><td>Camera-first</td><td>Education category</td></tr>
+        <tr><td>Planta</td><td>My Plants / Add / Light Meter / Calendar / Journal</td><td>Camera + search</td><td>Marketplace tab</td></tr>
+        <tr><td>Blossom</td><td>Home / Garden / Identify / Guides / Profile</td><td>Camera for ID</td><td>Achievement system</td></tr>
+        <tr><td>NatureID</td><td>Identify / Garden / Collection / Explore / Map</td><td>Camera + category picker</td><td>Multi-kingdom selector</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Common: bottom tab bar (4–5 items), camera/ID always prominent, "My Plants/Garden" as primary dashboard.</p>
 
   <h3>Community Approaches</h3>
-  <ul>
-    <li><strong>Greg:</strong> User-centric social feed (likes, comments, activity). Crowded territory.</li>
-    <li><strong>PictureThis:</strong> Plant-centric forums and challenges. Interesting concept but low engagement.</li>
-    <li><strong>Flora:</strong> Minimal. Not a focus.</li>
-  </ul>
-  <div class="gap-note">Gap: No app currently offers plant cohort-based community features.</div>
-
-  <h3>Device vs No-Device UX</h3>
-  <ul>
-    <li><strong>PictureThis / Greg:</strong> Fully functional without hardware. Device is additive.</li>
-    <li><strong>Flora:</strong> Degradation problem — without the tracker, the core value proposition collapses.</li>
-  </ul>
-
-  <h3>Plant Doctor: Commoditizing Fast</h3>
-  <div class="callout">
-    Photo-only diagnosis is now <strong>table stakes</strong> across the category. <strong>Sensor fusion</strong> — combining photo data with real-time environmental readings — represents the next level of diagnostic capability and the clearest point of differentiation in this space.
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Approach</th><th>App</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Social-first</strong></td><td>Greg</td><td>Instagram-like feed, follows, likes, milestones, local community</td></tr>
+        <tr><td><strong>Expert-backed</strong></td><td>PictureThis, Planta</td><td>24/7 professional consultation, curated content</td></tr>
+        <tr><td><strong>Gamified solo</strong></td><td>Blossom</td><td>Achievements, streaks, health scores — no user interaction</td></tr>
+        <tr><td><strong>Citizen science</strong></td><td>NatureID</td><td>Regional sighting maps, biodiversity contribution</td></tr>
+      </tbody>
+    </table>
   </div>
+  <span class="gap">Gap</span>
+  <p>No app has built a truly thriving community. Greg is closest but others treat community as secondary.</p>
 
-  <div class="doc-footer">
-    Plant App Competitive Research &nbsp;·&nbsp; February 2026
+  <h3>Plant Doctor Comparison</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>App</th><th>Method</th><th>Depth</th><th>Expert Access</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Greg</td><td>Community diagnosis + symptom logging</td><td>Medium</td><td>No</td></tr>
+        <tr><td>PictureThis</td><td>AI photo + treatment plans</td><td>Deep — step-by-step recovery</td><td>Yes — 24/7 horticulturists</td></tr>
+        <tr><td>Planta</td><td>Dr. Planta AI + in-house team</td><td>Deep — customized treatment</td><td>Yes — 365-day access</td></tr>
+        <tr><td>Blossom</td><td>Automated photo diagnosis</td><td>Medium — recommendations</td><td>No</td></tr>
+        <tr><td>NatureID</td><td>AI diagnosis + severity scoring</td><td>Medium — organic & chemical options</td><td>No</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Plant Doctor is becoming table-stakes. Differentiation is shifting from "can it diagnose?" to "how good is the treatment plan?" and "can I talk to a real expert?"</p>
+
+  <h3>Monetization Patterns</h3>
+  <p>All apps use freemium with aggressive free-tier limits (3–10 daily IDs, 2–15 plant slots). Pricing clusters around <strong>$8–10/month</strong> or <strong>$30–50/year</strong>.</p>
+  <p><strong>Notable:</strong> Blossom and NatureID offer <strong>lifetime purchase</strong> ($60–100) — an alternative for users with subscription fatigue.</p>
+
+  <!-- DEVICE GAP -->
+  <h2>Device vs. No-Device UX</h2>
+  <p>Every app is <strong>phone-only</strong> — no companion hardware. Environmental sensing is limited to phone camera (light meter), GPS (weather), and microphone (NatureID birds only).</p>
+  <div class="callout">This creates a fundamental limitation: care advice is based on user-reported conditions and weather API estimates, not actual soil moisture, humidity, or root health data.</div>
+
+  <div class="footer">
+    <p>Research conducted Feb 2026. App features and pricing may have changed.</p>
   </div>
 
 </div>

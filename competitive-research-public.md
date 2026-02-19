@@ -1,55 +1,88 @@
-# Plant App Competitive Research
+# Plant Care App — Competitive Landscape
 
-> Feb 14, 2026 — Apps analyzed: Greg, Flora, PictureThis, Planta
-> Blossom and NatureID: insufficient data retrieved
+> Updated Feb 2026 — Apps analyzed: Greg, PictureThis, Planta, Blossom, NatureID
+> Flora excluded (focus/productivity app, not plant care)
 
 ---
 
 ## Comparison Matrix
 
-| Feature | Greg | Flora | PictureThis | Planta |
-|---------|------|-------|-------------|--------|
-| **Community** | User-centric hybrid — feed, likes, plant groups, trending | Minimal — individual focus | Limited — forums, challenges, plant-centric | Unknown |
-| **Plant Logging** | Extensive — photo timeline, geotags, journal, height tracking | Photo timeline, care notes, chronological | Timeline, care history, milestones | Photo library, growth tracking |
-| **Plant ID** | Camera AI, confidence score, 3 suggestions | Photo-based with confidence | Primary feature — instant camera AI | Camera-based |
-| **Plant Doctor** | Photo symptom checker, health score per plant | Photo + sensor data fusion (differentiator) | Photo-based (premium) | Unknown |
-| **Hardware** | 3rd-party BT sensors (Parrot etc), many:1 mapping | Own BLE tracker, 1:1 mapping, QR pair, OTA | None — pure software | Wi-Fi soil sensors |
-| **Nav Structure** | Home \| My Plants \| Community \| Reminders \| Profile | Home \| Plant Library \| Doctor \| Devices \| Settings | Identify \| My Garden \| Guides \| Doctor \| Profile | Unknown |
-| **Without Hardware** | Fully functional | Usable but degraded (loses real-time data) | Fully functional (no hw) | Usable without hw |
-| **Monetization** | Freemium ~$5-10/mo | Free + Premium + HW sales ($30-50) | Freemium ~$10-15/mo or $60/yr | Freemium |
+| Feature | Greg | PictureThis | Planta | Blossom | NatureID |
+|---------|------|-------------|--------|---------|----------|
+| **Plant ID** | Database search + barcode | AI photo (98%, 400K species) | AI photo (400K species) | AI photo (10K species, ~95%) | AI photo (400K species, ~97%) |
+| **Plant Doctor** | Community-driven diagnosis | Photo diagnosis + 24/7 experts | Dr. Planta + in-house experts | Automated diagnosis only | Photo diagnosis, severity scoring |
+| **Care Reminders** | Weather-adjusted smart scheduling | Basic watering + fertilization | AI-adaptive, 7 care types | Seasonal auto-adjust + water calculator | Personalized schedules |
+| **Community** | Social feed, likes, follows, groups | Expert chat + forums | Care Share + community | None (gamification only) | Citizen science sightings |
+| **Hardware** | Light meter + weather API | Light meter | Light meter | Light meter + GPS weather | Camera + mic (bird calls) |
+| **Monetization** | $5–8/mo, $30–50/yr | $8/mo, $40/yr, family plan | $10/mo, $36/yr | $10/mo, $40/yr, **lifetime $80–100** | $10–13/mo, $30–40/yr, **lifetime $60–80** |
+| **Unique Angle** | Social-first, weather integration | Highest accuracy, 28 languages | Expert team, marketplace | Water calculator, health scoring | Multi-kingdom (plants+insects+birds+mushrooms) |
+| **Rating** | ~4.7/5 | 4.8/5 (1M+ ratings) | 4.8/5 (107K ratings) | ~4.7/5 | ~4.7/5 |
 
 ---
 
 ## Key Patterns
 
-### Hardware Integration: Three Models
+### Three Hardware Integration Models
 
-1. **Native Hardware (Flora):** Own BLE tracker, 1:1 plant mapping, QR pairing, firmware OTA. App built *for* the hardware. Without it, value prop degrades. Revenue = hardware + premium.
+1. **Phone-only sensors** (Greg, PictureThis, Planta, Blossom, NatureID) — Light meter via camera, GPS for weather. No external hardware.
+2. **Weather API integration** (Greg, Blossom) — Adjusts care based on real-time local conditions.
+3. **Audio identification** (NatureID only) — Microphone for bird call recognition.
 
-2. **Partner Ecosystem (Greg, Planta):** Integrates 3rd-party sensors. Many:1 mapping flexibility. App doesn't need hardware. Revenue = subscription, hardware is retention glue.
-
-3. **No Hardware (PictureThis):** Pure software. Fastest onboarding. Revenue = subscription only.
+No app in this space integrates with dedicated plant hardware sensors.
 
 ### Navigation Patterns
 
-Two dominant approaches:
-- **Plant ID as primary CTA** (PictureThis): "Identify" is first tab — the hook is "what is this plant?"
-- **Dashboard/Collection as home** (Greg, Flora): Assumes you know your plants. Status overview first.
+| App | Primary Nav | Plant Entry | Unique Pattern |
+|-----|------------|-------------|----------------|
+| Greg | Bottom tabs: Feed / My Plants / Add / Water / Profile | Search + barcode | Social feed as home |
+| PictureThis | Identify / My Garden / Care / Diagnose / Learn | Camera-first | Education category positioning |
+| Planta | My Plants / Add / Light Meter / Calendar / Journal | Camera + search | Marketplace tab |
+| Blossom | Home / My Garden / Identify / Guides / Profile | Camera for ID | Achievement system in profile |
+| NatureID | Identify / My Garden / Collection / Explore / Map | Camera with category picker | Multi-kingdom category selector |
 
-Flora's **Plant Doctor as top-level tab** is notable — signals "we expect problems and we'll fix them."
+**Common pattern:** Bottom tab bar with 4–5 items. Camera/identification always prominent. "My Plants/Garden" as primary dashboard.
 
 ### Community Approaches
 
-- **Greg**: User-centric social feed (likes, comments, activity). Crowded territory.
-- **PictureThis**: Plant-centric forums and challenges. Interesting but low engagement.
-- **Flora**: Minimal. Not a focus.
-- **Gap:** No app currently does plant cohort-based community.
+| Approach | App | Description |
+|----------|-----|-------------|
+| **Social-first** | Greg | Instagram-like feed, follows, likes, milestones, local community |
+| **Expert-backed** | PictureThis, Planta | 24/7 professional consultation, curated content |
+| **Gamified solo** | Blossom | Achievements, streaks, health scores — no user interaction |
+| **Citizen science** | NatureID | Regional sighting maps, biodiversity contribution |
+| **None** | — | Most apps have minimal community features |
 
-### Device vs No-Device UX
+**Gap:** No app has built a truly thriving community. Greg is closest but the others treat community as secondary.
 
-- **PictureThis/Greg**: Fully functional without hardware. Device is additive.
-- **Flora**: Degradation problem — without tracker, core value prop collapses.
+### Plant Doctor Comparison
 
-### Plant Doctor: Commoditizing Fast
+| App | Method | Depth | Expert Access |
+|-----|--------|-------|---------------|
+| Greg | Community diagnosis + symptom logging | Medium — relies on other users | No |
+| PictureThis | AI photo diagnosis + treatment plans | Deep — step-by-step recovery | Yes — 24/7 horticulturists |
+| Planta | Dr. Planta AI + in-house team | Deep — customized treatment | Yes — 365-day expert access |
+| Blossom | Automated photo diagnosis | Medium — treatment recommendations | No |
+| NatureID | AI diagnosis + severity scoring | Medium — organic & chemical options | No |
 
-Photo-only diagnosis is table stakes now. **Sensor fusion** (photo + environmental data) represents the next level of defensibility in this category.
+Plant Doctor is becoming table-stakes. The differentiation is shifting from "can it diagnose?" to "how good is the treatment plan?" and "can I talk to a real expert?"
+
+### Monetization Patterns
+
+All apps use freemium with aggressive limits on the free tier (3–10 daily IDs, 2–15 plant slots). Pricing clusters around $8–10/month or $30–50/year.
+
+**Notable:** Blossom and NatureID offer **lifetime purchase** ($60–100) — an alternative for users with subscription fatigue. No other major competitor offers this.
+
+---
+
+## Device vs. No-Device UX
+
+Every app in this space is **phone-only** — no companion hardware. Environmental sensing is limited to:
+- Phone camera (light meter, plant ID, disease diagnosis)
+- GPS (weather data, regional care adjustments)
+- Microphone (NatureID bird calls only)
+
+This creates a fundamental limitation: care advice is based on **user-reported conditions** and **weather API estimates**, not actual soil moisture, humidity, or root health data.
+
+---
+
+*Research conducted Feb 2026. App features and pricing may have changed.*
